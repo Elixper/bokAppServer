@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const favSchema = new Schema({
+const listSchema = new Schema({
   name: String,
-  description: String,
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -18,6 +17,6 @@ const favSchema = new Schema({
 { timestamps: true }
 );
 
-const Fav = mongoose.model("Fav", favSchema);
+const List = mongoose.model("List", listSchema);
 
-module.exports = Fav;
+module.exports = List;
