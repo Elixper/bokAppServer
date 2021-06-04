@@ -9,22 +9,22 @@ const salt = 10;
 
 const users = [
   {
-    pseudo: "toto",
-    firstName: "titi",
-    lastName: "tata",
+    username: "toto",
     email: "titi@test.com",
     password: bcrypt.hashSync("12345", salt),
-    description: " blablablabla la Bio",
-    isAuthor: false,
+    biography: " blablablabla la Bio",
   },
   {
-    pseudo: "test",
-    firstName: "bar",
-    lastName: "foo",
+    username: "test",
     email: "foo@baz.com",
     password: bcrypt.hashSync("1234", salt),
     description: "une bio chanmé",
-    isAuthor: true,
+  },
+  {
+    username: "test2",
+    email: "bar@baz.com",
+    password: bcrypt.hashSync("1234", salt),
+    description: "une bio",
   },
 ];
 
