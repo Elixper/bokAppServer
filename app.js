@@ -47,9 +47,9 @@ app.use(
 const authRouter = require("./routes/auth");
 
 app.use("/api/auth", authRouter);
-app.use("/my-account", require("./routes/user.routes"))
-app.use("/creation", require('./routes/book.routes'))
-app.use('/fav-list', require('./routes/fav.routes'))
+app.use("/api", require("./routes/user.routes"))
+app.use("/api", require('./routes/book.routes'))
+app.use('/api', require('./routes/fav.routes'))
 // 404 Middleware
 app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
