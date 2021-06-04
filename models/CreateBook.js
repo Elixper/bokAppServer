@@ -10,7 +10,8 @@ const createBookSchema = new Schema({
     author:{
         type: Schema.Types.ObjectId,
         ref : 'User'
-    }
+    },
+    creationDate: { type: Date, default: Date.now },
 })
 
 const CreateBook = mongoose.model("CreateBook", createBookSchema);
