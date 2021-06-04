@@ -6,6 +6,9 @@ const path = require("path");
 const logger = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const cookieParser = require("cookie-parser") 
+const mongoose = require("mongoose")
+
 
 const cors = require("cors");
 
@@ -19,7 +22,7 @@ app.use(cors(corsOptions));
 app.use(logger("dev")); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
 app.use(express.urlencoded({ extended: false })); // Access data sent as application/x-www-form-urlencoded @req.body
-
+app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
@@ -49,7 +52,7 @@ const authRouter = require("./routes/auth");
 app.use("/api/auth", authRouter);
 app.use("/api", require("./routes/user.routes"))
 app.use("/api", require('./routes/book.routes'))
-app.use('/api', require('./routes/fav.routes'))
+// app.use('/api', require('./routes/fav.routes'))
 
 // 404 Middleware
 app.use((req, res, next) => {
