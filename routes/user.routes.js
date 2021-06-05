@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require("../models/User");
 const Book = require("../models/Book");
 const uploader = require("../config/cloudinary");
-const protectRoute = require('../middlewares/protectRoute')
+const protectRoute = require('../middlewares/protectRoute');
+
 //TODO
 //patch ( basic update profile without isAuthor for now)
 router.patch("/my-account/profile", /* protectRoute, */ uploader.single("profileImg"), (req, res, next) => {
