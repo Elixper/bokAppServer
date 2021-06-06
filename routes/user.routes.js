@@ -31,7 +31,7 @@ router.get("/my-account",/* protectRoute, */ (req, res, next) => {
   }
 );
 
-// get user list
+// get user bokbook
 router.get("/my-account/creation", /* protectRoute, */ (req,res,next)=>{
     const userId = req.session.currentUser;
     Book.find({author : userId})
