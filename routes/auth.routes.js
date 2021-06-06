@@ -54,18 +54,31 @@ router.post("/signup", (req, res, next) => {
     .catch(next);
 });
 
+// router.get("/isLoggedIn", (req, res, next) => {
+//   if (!req.session.currentUser)
+//     return res.status(401).json({ message: "Unauthorized" });
+
+//   const id = req.session.currentUser;
+
+//   User.findById(id)
+//     .select("-password")
+//     .then((userDocument) => {
+//       res.status(200).json(userDocument);
+//     })
+//     .catch(next);
+// });
 router.get("/isLoggedIn", (req, res, next) => {
-  if (!req.session.currentUser)
-    return res.status(401).json({ message: "Unauthorized" });
-
-  const id = req.session.currentUser;
-
-  User.findById(id)
-    .select("-password")
-    .then((userDocument) => {
-      res.status(200).json(userDocument);
-    })
-    .catch(next);
+  
+  if (req.session.currentUser) {
+    User.findById(req.session.currentUser)
+      .select("-password") 
+      .then((userDocument) => {
+        res.status(200).json(userDocument);
+      })
+      .catch(next);
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
 });
 
 router.get("/logout", (req, res, next) => {
