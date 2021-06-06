@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const Book = require("../models/Book");
+const Book = require("../models/BoKBook");
 const uploader = require("../config/cloudinary");
 const protectRoute = require('../middlewares/protectRoute')
 //TODO

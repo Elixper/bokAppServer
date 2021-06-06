@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const BokBook = require("../models/BokBook");
+const BokBook = require("../models/BoKBook");
 const uploader = require("../config/cloudinary");
 //const requireAuth = require("../middlewares/requireAuth")
 
