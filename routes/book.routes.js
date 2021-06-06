@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Book = require("../models/Book");
+const BokBook = require("../models/BokBook");
 const uploader = require("../config/cloudinary");
 //const requireAuth = require("../middlewares/requireAuth")
 
@@ -8,7 +8,7 @@ const uploader = require("../config/cloudinary");
 //router.get all
 
 router.get("/", (req, res, next) => {
-    Book.find({}) 
+    BokBook.find({}) 
       .populate("author") 
       .then((itemBook) => {
         res.status(200).json(itemBook);
@@ -19,7 +19,7 @@ router.get("/", (req, res, next) => {
 //router.get one
 
 router.get("/:id", (req, res, next) => {
-    Book.findById(req.params.id) 
+    BokBook.findById(req.params.id) 
       .populate("author") 
       .then((itemDocuments) => {
         res.status(200).json(itemDocuments);
@@ -34,7 +34,7 @@ router.patch(
     (req, res, next) => {
       const item = { ...req.body };
   
-      Book.findById(req.params.id)
+      BokBook.findById(req.params.id)
         .then((itemBook) => {
           if (!itemBook)
             return res.status(404).json({ message: "Item not found" });
@@ -48,7 +48,7 @@ router.patch(
         //     item.image = req.file.secure_url;
         //   }
   
-          Book.findByIdAndUpdate(req.params.id, item, { new: true })
+          BokBook.findByIdAndUpdate(req.params.id, item, { new: true })
             .populate("author")
             .then((updatedDocument) => {
               return res.status(200).json(updatedDocument);
@@ -62,7 +62,7 @@ router.patch(
 //router.delete
 
 router.delete("/delete/:id", (req, res, next) => {
-    Book.findById(req.params.id)
+    BokBook.findById(req.params.id)
       .then((itemDocument) => {
         if (!itemDocument) {
           return res.status(404).json({ message: "Item not found" });
@@ -71,7 +71,7 @@ router.delete("/delete/:id", (req, res, next) => {
         //   return res.status(403).json({ message: "You can't delete this item" });
         // }
   
-        Book.findByIdAndDelete(req.params.id)
+        BokBook.findByIdAndDelete(req.params.id)
           .then(() => {
             return res.sendStatus(204);
           })
@@ -90,7 +90,7 @@ router.post("/your-masterpiece", (req, res, next) => {
     
     // updateValues.author = req.session.currentUser; 
   
-    Book.create(updateValues)
+    BokBook.create(updateValues)
       .then((itemDocument) => {
         itemDocument
           .populate("author")

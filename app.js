@@ -52,7 +52,7 @@ const authRouter = require("./routes/auth");
 app.use("/api/auth", authRouter);
 app.use("/api", require("./routes/user.routes"))
 app.use("/api/book", require('./routes/book.routes'))
-// app.use('/api', require('./routes/fav.routes'))
+app.use("/api/bookFromData", require("./routes/list.routes"))
 
 // 404 Middleware
 app.use((req, res, next) => {
