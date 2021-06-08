@@ -38,15 +38,15 @@ router.patch(
         .then((itemBook) => {
           if (!itemBook)
             return res.status(404).json({ message: "Item not found" });
-        //   if (itemDocument.author.toString() !== req.session.currentUser) {
-        //     return res
-        //       .status(403)
-        //       .json({ message: "You are not allowed to update this document" });
-        //   }
+          if (itemDocument.author.toString() !== req.session.currentUser) {
+            return res
+              .status(403)
+              .json({ message: "You are not allowed to update this document" });
+          }
   
-        //   if (req.file) {
-        //     item.image = req.file.secure_url;
-        //   }
+          if (req.file) {
+            item.image = req.file.secure_url;
+          }
   
           BokBook.findByIdAndUpdate(req.params.id, item, { new: true })
             .populate("author")
@@ -67,9 +67,9 @@ router.delete("/delete/:id", (req, res, next) => {
         if (!itemDocument) {
           return res.status(404).json({ message: "Item not found" });
         }
-        // if (itemDocument.creator.toString() !== req.session.currentUser) {
-        //   return res.status(403).json({ message: "You can't delete this item" });
-        // }
+        if (itemDocument.creator.toString() !== req.session.currentUser) {
+          return res.status(403).json({ message: "You can't delete this item" });
+        }
   
         BokBook.findByIdAndDelete(req.params.id)
           .then(() => {
@@ -88,7 +88,7 @@ router.post("/your-masterpiece", (req, res, next) => {
     const updateValues = { ...req.body };
   
     
-    // updateValues.author = req.session.currentUser; 
+    updateValues.author = req.session.currentUser; 
   
     BokBook.create(updateValues)
       .then((itemDocument) => {
