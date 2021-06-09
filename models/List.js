@@ -6,6 +6,7 @@ const listSchema = new Schema({
   authors: String,
   categories: [{type:String}],
   publishedDate: String,
+  pageCount : Number,
   description: String,
   thumbnail: {type:String,
   default: "https://www.sortiraparis.com/images/1002/1665/547990-coronavirus-comment-se-procurer-des-livres-pendant-le-confinement.jpg"},
