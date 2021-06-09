@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const listSchema = new Schema({
+const googleBook = new Schema({
   title: [{type:String}],
+  volumeID: String,
   authors: String,
   categories: [{type:String}],
   publishedDate: String,
@@ -17,6 +18,6 @@ const listSchema = new Schema({
   //pageCount
 });
 
-const List = mongoose.model("List", listSchema);
+const List = mongoose.model("GoogleBook", googleBook);
 
 module.exports = List;

@@ -21,7 +21,8 @@ const userSchema = new Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     biography: String,
-    // save : bokbook id et list id
+    favGgl : [String],
+    favMe: [{type:Schema.Types.ObjectId, ref:"BokBook"}]
   },
   { timestamps: true }
 );

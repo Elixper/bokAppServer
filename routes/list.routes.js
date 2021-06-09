@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const BokBook = require("../models/BoKBook");
-const List = require("../models/List");
+const List = require("../models/GoogleBook");
 
 router.get("/", (req, res, next) => {
   List.find()
