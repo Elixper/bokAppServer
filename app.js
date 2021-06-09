@@ -51,7 +51,7 @@ app.use(
 app.use("/api/auth", require('./routes/auth.routes'));
 app.use("/api", require("./routes/user.routes"))
 app.use("/api/book", require('./routes/book.routes'))
-app.use("/api/bookFromData", require("./routes/list.routes"))
+app.use("/api/bookFromData", require("./routes/googleBooks.routes"))
 
 // 404 Middleware
 app.use((req, res, next) => {
