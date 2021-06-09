@@ -21,7 +21,7 @@ const userSchema = new Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     biography: String,
-    // isAuthor: Boolean,
+    // save : bokbook id et list id
   },
   { timestamps: true }
 );
