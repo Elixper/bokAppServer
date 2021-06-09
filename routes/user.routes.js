@@ -2,13 +2,17 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Book = require("../models/BoKBook");
+const GoogleBook = require("../models/GoogleBook");
 const uploader = require("../config/cloudinary");
-const protectRoute = require('../middlewares/protectRoute');
+const protectRoute = require("../middlewares/protectRoute");
 
-//TODO
 
-//patch ( basic update profile without isAuthor for now)
-router.patch("/my-account/profile", /* protectRoute, */ uploader.single("profileImg"), (req, res, next) => {
+
+//patch Update profile
+router.patch(
+  "/my-account/profile",
+  /* protectRoute, */ uploader.single("profileImg"),
+  (req, res, next) => {
     const userId = req.session.currentUser;
     if (req.file) {
       req.body.profileImg = req.file.path;
@@ -21,8 +25,10 @@ router.patch("/my-account/profile", /* protectRoute, */ uploader.single("profile
   }
 );
 
-// get user account dashboard
-router.get("/my-account",/* protectRoute, */ (req, res, next) => {
+// get user account 
+router.get(
+  "/my-account",
+  /* protectRoute, */ (req, res, next) => {
     const userId = req.session.currentUser;
     User.findById(userId)
       .select("-password")
@@ -32,12 +38,28 @@ router.get("/my-account",/* protectRoute, */ (req, res, next) => {
 );
 
 // get user bokbook
-router.get("/my-account/creation", /* protectRoute, */ (req,res,next)=>{
+router.get(
+  "/dashboard/creation",
+  /* protectRoute, */ (req, res, next) => {
     const userId = req.session.currentUser;
-    Book.find({author : userId})
-    .then(result=>res.status(200).json(result))
-    .catch(next)
-})
+    Book.find({ author: userId })
+      .then((result) => res.status(200).json(result))
+      .catch(next);
+  }
+);
 
+router.post("/dashboard/:id", (req, res, next) => {
+  GoogleBook.create(ggBookApi)
+    .then((GBookAdd) => {
+      User.findByIdAndUpdate(
+        req.params.volumeID,
+        { $push: { bookFromApi: GBookAdd._id } },
+        { new: true }
+      )
+        .then((result) => console.log(result))
+        .catch((err) => console.log(err));
+    })
+    .catch(next);
+});
 
 module.exports = router;

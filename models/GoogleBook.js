@@ -2,20 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const googleBook = new Schema({
-  title: [{type:String}],
+  title: [{ type: String }],
   volumeID: String,
   authors: String,
-  categories: [{type:String}],
+  categories: [{ type: String }],
   publishedDate: String,
-  pageCount : Number,
+  pageCount: Number,
   description: String,
-  thumbnail: {type:String,
-  default: "https://www.sortiraparis.com/images/1002/1665/547990-coronavirus-comment-se-procurer-des-livres-pendant-le-confinement.jpg"},
+  thumbnail: { type: String },
   //amount dans listPrice
   price: Number,
-//purchase = buyLink dans saleInfo
+  //purchase = buyLink dans saleInfo
   purchase: String,
-  //pageCount
 });
 
 const List = mongoose.model("GoogleBook", googleBook);
