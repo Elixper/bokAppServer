@@ -51,7 +51,7 @@ router.get(
 //     .then((GBookAdd) => {
 //       User.findByIdAndUpdate(
 //         req.params.volumeID,
-//         { $push: { bookFromApi: GBookAdd._id } },
+//         { $push: { bookFromA pi: GBookAdd._id } },
 //         { new: true }
 //       )
 //         .then((result) => console.log(result))
@@ -61,7 +61,7 @@ router.get(
 // });
 
 router.post("/dashboard/add-list", (req, res, next) => {
-  const gglCopy = new GglBookCopy();
+  const list = new GoogleBook();
   list.title = req.body.title;
   list.authors = req.body.authors;
   list.genre = req.body.categories;
@@ -72,18 +72,19 @@ router.post("/dashboard/add-list", (req, res, next) => {
   list.purchase = req.body.purchase;
   list.user_id = req.session.currentUser;
 
-  const volumeID = req.body.volumeID;
+  // const volumeID = req.body.volumeID;
 
-  gglCopy
-    .save(newCopyForDb)
+  list
+    .save()
     .then((newCopyForDb) => {
-      GoogleBook.findByIdAndUpdate(
-        volumeID,
-        { $push: { googleBook: newCopyForDb._id } },
+      console.log(newCopyForDb);
+      User.findByIdAndUpdate(
+        req.session.currentUser._id,
+        { $push: { favGgl: newCopyForDb._id } },
         { new: true }
       )
         .then((data) => {
-          console.log(data);
+          console.log("coucou",data);
         })
         .catch((err) => {
           console.log(err);
