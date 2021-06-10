@@ -6,11 +6,9 @@ const GoogleBook = require("../models/GoogleBook");
 const uploader = require("../config/cloudinary");
 const protectRoute = require("../middlewares/protectRoute");
 
-
-
 //patch Update profile
 router.patch(
-  "/my-account/profile",
+  "/my-account",
   /* protectRoute, */ uploader.single("profileImg"),
   (req, res, next) => {
     const userId = req.session.currentUser;
@@ -25,7 +23,7 @@ router.patch(
   }
 );
 
-// get user account 
+// get user account
 router.get(
   "/my-account",
   /* protectRoute, */ (req, res, next) => {
@@ -48,7 +46,7 @@ router.get(
   }
 );
 
-// router.post("/dashboard/:id", (req, res, next) => {
+// router.post("/dashboard",/* protectRoute, */ (req, res, next) => {
 //   GoogleBook.create(ggBookApi)
 //     .then((GBookAdd) => {
 //       User.findByIdAndUpdate(
@@ -73,7 +71,9 @@ router.post("/dashboard/add-list", (req, res, next) => {
   list.price = req.body.price;
   list.purchase = req.body.purchase;
   list.user_id = req.session.currentUser;
+
   const volumeID = req.body.volumeID;
+
   gglCopy
     .save(newCopyForDb)
     .then((newCopyForDb) => {
