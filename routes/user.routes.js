@@ -46,52 +46,55 @@ router.get(
   }
 );
 
-// router.post("/dashboard",/* protectRoute, */ (req, res, next) => {
-//   GoogleBook.create(ggBookApi)
-//     .then((GBookAdd) => {
-//       User.findByIdAndUpdate(
-//         req.params.volumeID,
-//         { $push: { bookFromA pi: GBookAdd._id } },
-//         { new: true }
-//       )
-//         .then((result) => console.log(result))
-//         .catch((err) => console.log(err));
-//     })
-//     .catch(next);
-// });
+router.get("/", (req, res, next) => {
+  User.find({})
+    .populate("favGgl")
+    .then((itemBook) => {
+      res.status(200).json(itemBook);
+    })
+    .catch(next);
+});
 
 router.post("/dashboard/add-list", (req, res, next) => {
-  const list = new GoogleBook();
-  list.title = req.body.title;
-  list.authors = req.body.authors;
-  list.genre = req.body.categories;
-  list.publishedDate = req.body.publishedDate;
-  list.description = req.body.description;
-  list.thumbnail = req.body.thumbnail;
-  list.price = req.body.price;
-  list.purchase = req.body.purchase;
-  list.user_id = req.session.currentUser;
+  // const list = new GoogleBook();
+  // list.title = req.body.title;
+  // list.authors = req.body.authors;
+  // list.genre = req.body.categories;
+  // list.publishedDate = req.body.publishedDate;
+  // list.description = req.body.description;
+  // list.thumbnail = req.body.thumbnail;
+  // list.price = req.body.price;
+  // list.purchase = req.body.purchase;
+  // list.user_id = req.session.currentUser;
 
   // const volumeID = req.body.volumeID;
 
-  list
-    .save()
-    .then((newCopyForDb) => {
-      console.log(newCopyForDb);
-      User.findByIdAndUpdate(
-        req.session.currentUser._id,
-        { $push: { favGgl: newCopyForDb._id } },
-        { new: true }
-      )
-        .then((data) => {
-          console.log("coucou",data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      res.status(201).json(newCopyForDb);
-    })
-    .catch(next);
+  // list
+  //   .save()
+  //   .then((newCopyForDb) => {
+  //     console.log(newCopyForDb);
+  //     User.findByIdAndUpdate(
+  //       req.session.currentUser._id,
+  //       { $push: { favGgl: newCopyForDb._id } },
+  //       { new: true }
+  //     )
+  //       .then((data) => {
+  //         console.log("coucou",data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //     res.status(201).json(newCopyForDb);
+  //   })
+  //   .catch(next);
+  console.log(req.body)
+  console.log(req.session.currentUser)
+  User.findByIdAndUpdate(req.session.currentUser, {$push: {favGgl: req.body.id}}, {new: true})
+  .then(res => {
+    console.log("LA RES", res);
+    
+  })
+  .catch(err => console.error(err))
 });
 
 
