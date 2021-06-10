@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Book = require("../models/BoKBook");
 const uploader = require("../config/cloudinary");
 const protectRoute = require("../middlewares/protectRoute");
+const { findById } = require("../models/User");
 
 //patch Update profile
 router.patch(
@@ -43,7 +44,7 @@ router.get("/my-bokBook/:id", protectRoute, (req, res, next) => {
     })
     .catch(next);
 });
-
+// get user bokbook
 router.get("/me/books", protectRoute, (req, res, next) => {
   const userId = req.session.currentUser;
 
@@ -53,6 +54,23 @@ router.get("/me/books", protectRoute, (req, res, next) => {
     })
     .catch(next);
 });
+
+//delete user bokBook
+router.delete('/delete/:id', protectRoute, (req,res,next)=>{
+// Book.findById(req.params.id)
+// .then(result => res.sendStatus(204).json(result))
+// .catch(error=> res.status(500).json(error))
+Book.findById(req.params.id)
+    .then((itemDocument) => {
+      console.log(req.params.id)
+      Book.findByIdAndDelete(req.params.id)
+        .then(() => {
+          return res.sendStatus(204);
+        })
+        .catch(next);
+    })
+    .catch(next);
+})
 
 // get user bokbook
 router.get("/dashboard/creation", protectRoute, (req, res, next) => {

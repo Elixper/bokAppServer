@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const BokBook = require("../models/BoKBook");
+const Book = require("../models/BoKBook");
 const uploader = require("../config/cloudinary");
 const protectRoute =require('../middlewares/protectRoute')
 
 //router.get all
 
 router.get("/", protectRoute, (req, res, next) => {
-  BokBook.find({})
+  Book.find({})
     .populate("author")
     .then((itemBook) => {
       res.status(200).json(itemBook);
@@ -19,7 +19,7 @@ router.get("/", protectRoute, (req, res, next) => {
 //router.get one
 router.get("/my-bokBook/:id", protectRoute, (req, res, next) => {
   const user = User.find(req.session.currentUser);
-  const bokbook = BokBook.find()
+  const bokbook = Book.find()
     .then((result) => {
       res
         .status(200)
@@ -38,7 +38,7 @@ router.post("/your-masterpiece", uploader.single("image"), protectRoute, (req, r
 
   updateValues.author = req.session.currentUser;
 
-  BokBook.create(updateValues)
+  Book.create(updateValues)
     .then((itemDocument) => {
       itemDocument
         .populate("author")
@@ -57,7 +57,7 @@ router.post("/your-masterpiece", uploader.single("image"), protectRoute, (req, r
 router.patch("/:id", uploader.single("image"), protectRoute, (req, res, next) => {
   const item = { ...req.body };
 
-  BokBook.findById(req.params.id)
+  Book.findById(req.params.id)
     .then((itemBook) => {
       if (!itemBook) return res.status(404).json({ message: "Bok not found" });
       if (itemDocument.author.toString() !== req.session.currentUser) {
@@ -82,8 +82,12 @@ router.patch("/:id", uploader.single("image"), protectRoute, (req, res, next) =>
 
 //router.delete
 
+
+  
 router.delete("/:id", protectRoute, (req, res, next) => {
-  BokBook.findById(req.params.id)
+
+ 
+  Book.findById(req.params.id)
     .then((itemDocument) => {
       if (!itemDocument) {
         return res.status(404).json({ message: "bok not found" });
@@ -92,7 +96,7 @@ router.delete("/:id", protectRoute, (req, res, next) => {
         return res.status(403).json({ message: "You can't delete this item" });
       }
 
-      BokBook.findByIdAndDelete(req.params.id)
+      Book.findByIdAndDelete(req.params.id)
         .then(() => {
           return res.sendStatus(204);
         })
