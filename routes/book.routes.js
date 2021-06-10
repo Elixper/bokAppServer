@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const BokBook = require("../models/BoKBook");
 const uploader = require("../config/cloudinary");
-//const requireAuth = require("../middlewares/requireAuth")
+const protectRoute ="../middlewares/protectRoute"
 
 //router.get all
 
-router.get("/", (req, res, next) => {
+router.get("/", protectRoute, (req, res, next) => {
   BokBook.find({})
     .populate("author")
     .then((itemBook) => {
@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
 });
 
 //router.get one
-router.get("/my-bokBook/:id", (req, res, next) => {
+router.get("/my-bokBook/:id", protectRoute, (req, res, next) => {
   const user = User.find(req.session.currentUser);
   const bokbook = BokBook.find()
     .then((result) => {
@@ -29,17 +29,7 @@ router.get("/my-bokBook/:id", (req, res, next) => {
 });
 
 
-// router.get("/:id", (req, res, next) => {
-//   BokBook.findById(req.params.id)
-//     .populate("author")
-//     .then((itemDocuments) => {
-//       res.status(200).json(itemDocuments);
-//     })
-//     .catch(next);
-// });
-//router.post create
-
-router.post("/your-masterpiece", uploader.single("image"), (req, res, next) => {
+router.post("/your-masterpiece", uploader.single("image"), protectRoute, (req, res, next) => {
   const updateValues = { ...req.body };
 
   if (req.file) {
@@ -64,7 +54,7 @@ router.post("/your-masterpiece", uploader.single("image"), (req, res, next) => {
 
 //router.patch
 
-router.patch("/:id", uploader.single("image"), (req, res, next) => {
+router.patch("/:id", uploader.single("image"), protectRoute, (req, res, next) => {
   const item = { ...req.body };
 
   BokBook.findById(req.params.id)
@@ -92,7 +82,7 @@ router.patch("/:id", uploader.single("image"), (req, res, next) => {
 
 //router.delete
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", protectRoute, (req, res, next) => {
   BokBook.findById(req.params.id)
     .then((itemDocument) => {
       if (!itemDocument) {

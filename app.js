@@ -7,11 +7,8 @@ const logger = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser") 
-const mongoose = require("mongoose")
-
 
 const cors = require("cors");
-
 const app = express();
 /**
  * Middlewares
@@ -37,21 +34,13 @@ app.use(
   })
 );
 
-// // Test to see if user is logged In before getting into any router.
-// app.use(function (req, res, next) {
-//   console.log("User in session =>", req.session.currentUser);
-//   next();
-// });
-
 /**
  * Routes
  */
 
-
 app.use("/api/auth", require('./routes/auth.routes'));
 app.use("/api/user", require("./routes/user.routes"))
 app.use("/api/book", require('./routes/book.routes'))
-// app.use("/api/bookFromData", require("./routes/googleBooks.routes"))
 
 // 404 Middleware
 app.use((req, res, next) => {
@@ -61,9 +50,6 @@ app.use((req, res, next) => {
 });
 
 // Error handler middleware
-// If you pass an argument to your next function in any of your routes or middlewares
-// You will end up in this middleware
-// next("toto") makes you end up here
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV !== "production") {
     console.error(err);
