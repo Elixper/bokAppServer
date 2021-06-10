@@ -20,7 +20,7 @@ app.use(logger("dev")); // This logs HTTP reponses in the console.
 app.use(express.json()); // Access data sent as json @req.body
 app.use(express.urlencoded({ extended: false })); // Access data sent as application/x-www-form-urlencoded @req.body
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public/build")));
 
 app.use(
   session({
@@ -43,11 +43,18 @@ app.use("/api/user", require("./routes/user.routes"))
 app.use("/api/book", require('./routes/book.routes'))
 
 // 404 Middleware
-app.use((req, res, next) => {
+app.use("/api/*",(req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
   next(error);
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(path.join(__dirname, "public/build/index.html"));
+  });
+}
 
 // Error handler middleware
 app.use((err, req, res, next) => {
