@@ -38,7 +38,7 @@ router.get(
 // get Id User
 router.get("/my-bokBook/:id", (req, res, next) => {
   const user = User.find(req.session.currentUser);
-  const bokbook = BokBook.find()
+ Book.find()
     .then((result) => {
       res
         .status(200)
@@ -46,6 +46,16 @@ router.get("/my-bokBook/:id", (req, res, next) => {
     })
     .catch(next);
 });
+
+
+router.get("/me/books",(req,res,next) => {
+  const userId = req.session.currentUser;
+
+  Book.find({author: userId}).then(books => {
+    res.status(200).json(books)
+  }).catch(next)
+
+})
 
 
 // get user bokbook
