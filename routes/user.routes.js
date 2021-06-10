@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Book = require("../models/BoKBook");
-const GoogleBook = require("../models/GoogleBook");
+// const GoogleBook = require("../models/GoogleBook");
 const uploader = require("../config/cloudinary");
 const protectRoute = require("../middlewares/protectRoute");
 
@@ -34,6 +34,19 @@ router.get(
       .catch(next);
   }
 );
+
+// get Id User
+router.get("/my-bokBook/:id", (req, res, next) => {
+  const user = User.find(req.session.currentUser);
+  const bokbook = BokBook.find()
+    .then((result) => {
+      res
+        .status(200)
+        .json(result, { user, bokbook, myMasterpiece: req.params.id });
+    })
+    .catch(next);
+});
+
 
 // get user bokbook
 router.get(

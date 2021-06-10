@@ -11,11 +11,23 @@ router.get("/", (req, res, next) => {
     .populate("author")
     .then((itemBook) => {
       res.status(200).json(itemBook);
+      console.log(itemBook);
     })
     .catch(next);
 });
 
 //router.get one
+router.get("/my-bokBook/:id", (req, res, next) => {
+  const user = User.find(req.session.currentUser);
+  const bokbook = BokBook.find()
+    .then((result) => {
+      res
+        .status(200)
+        .json(result, { user, bokbook, myMasterpiece: req.params.id });
+    })
+    .catch(next);
+});
+
 
 // router.get("/:id", (req, res, next) => {
 //   BokBook.findById(req.params.id)
