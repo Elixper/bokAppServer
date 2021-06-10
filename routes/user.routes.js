@@ -48,18 +48,56 @@ router.get(
   }
 );
 
-router.post("/dashboard/:id", (req, res, next) => {
-  GoogleBook.create(ggBookApi)
-    .then((GBookAdd) => {
-      User.findByIdAndUpdate(
-        req.params.volumeID,
-        { $push: { bookFromApi: GBookAdd._id } },
+// router.post("/dashboard/:id", (req, res, next) => {
+//   GoogleBook.create(ggBookApi)
+//     .then((GBookAdd) => {
+//       User.findByIdAndUpdate(
+//         req.params.volumeID,
+//         { $push: { bookFromApi: GBookAdd._id } },
+//         { new: true }
+//       )
+//         .then((result) => console.log(result))
+//         .catch((err) => console.log(err));
+//     })
+//     .catch(next);
+// });
+
+router.post("/dashboard/add-list", (req, res, next) => {
+  const gglCopy = new GglBookCopy();
+  list.title = req.body.title;
+  list.authors = req.body.authors;
+  list.genre = req.body.categories;
+  list.publishedDate = req.body.publishedDate;
+  list.description = req.body.description;
+  list.thumbnail = req.body.thumbnail;
+  list.price = req.body.price;
+  list.purchase = req.body.purchase;
+  list.user_id = req.session.currentUser;
+  const volumeID = req.body.volumeID;
+  gglCopy
+    .save(newCopyForDb)
+    .then((newCopyForDb) => {
+      GoogleBook.findByIdAndUpdate(
+        volumeID,
+        { $push: { googleBook: newCopyForDb._id } },
         { new: true }
       )
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err));
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      res.status(201).json(newCopyForDb);
     })
     .catch(next);
 });
+
+
+
+
+
+
+
 
 module.exports = router;
